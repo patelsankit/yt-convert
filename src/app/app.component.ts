@@ -10,14 +10,13 @@ import { ConverterComponent } from './converter/converter.component';
   // you can also use templateUrl and update your HTML file accordingly.
   template: `
     <div class="app-container">
-      <h1>{{ title }}</h1>
       <!-- Include the converter component -->
       <app-converter></app-converter>
       <!-- Router outlet for additional routed views -->
       <router-outlet></router-outlet>
     </div>
   `,
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'yt-convert-angular';

@@ -9,7 +9,7 @@ import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
   imports: [CommonModule, FormsModule, HttpClientModule],
   template: `
     <div class="converter-container">
-      <h2>YouTube to MP3 Converter</h2>
+      <h2 class="title-cst">YouTube to MP3 Converter</h2>
       <form (ngSubmit)="onConvert()" novalidate>
         <input
           type="text"
@@ -17,7 +17,10 @@ import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
           name="youtubeUrl"
           placeholder="Enter YouTube URL"
           required>
-        <button type="submit" [disabled]="isConverting || !youtubeUrl.trim()">Convert</button>
+        <button type="submit" [disabled]="isConverting || !youtubeUrl.trim()">
+          <span>Convert & Download</span>
+        </button>
+
       </form>
       <div *ngIf="isConverting" class="loading">
         <p>Converting, please wait...</p>
@@ -29,23 +32,24 @@ import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
   `,
   styles: [`
     .converter-container {
+      width:100%;
       max-width: 600px;
-      margin: 50px auto;
+      margin: 0px;
       padding: 20px;
       border: 1px solid #ccc;
       border-radius: 8px;
       text-align: center;
+      @media (min-width:767px){
+        min-width:400px;
+      }
     }
     input {
-      width: 70%;
-      padding: 10px;
+      width: 100%;
+      padding: 12px;
       margin-right: 10px;
       font-size: 1rem;
     }
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-    }
+  
     .loading {
       margin-top: 10px;
       color: #555;
@@ -90,7 +94,7 @@ export class ConverterComponent {
     // Call the API.
     this.http.get(apiUrl, { headers })
       .subscribe({
-        next: (response: any) => {debugger
+        next: (response: any) => {
           this.isConverting = false;
           // The API is expected to return a JSON object with a "link" property.
           if (response && response.link) {
@@ -100,7 +104,7 @@ export class ConverterComponent {
             this.errorMessage = 'Conversion failed: No download link received.';
           }
         },
-        error: err => {debugger
+        error: err => {
           this.isConverting = false;
           console.error('Conversion error:', err);
           this.errorMessage = 'There was an error converting the video. Please try again.';

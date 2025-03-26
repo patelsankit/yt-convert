@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClientModule,
+  HttpClient,
+  HttpHeaders,
+} from '@angular/common/http';
 
 @Component({
   selector: 'app-converter',
@@ -16,11 +20,11 @@ import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
           [(ngModel)]="youtubeUrl"
           name="youtubeUrl"
           placeholder="Enter YouTube URL"
-          required>
+          required
+        />
         <button type="submit" [disabled]="isConverting || !youtubeUrl.trim()">
           <span>Convert & Download</span>
         </button>
-
       </form>
       <div *ngIf="isConverting" class="loading">
         <p>Converting, please wait...</p>
@@ -30,35 +34,41 @@ import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
       </div>
     </div>
   `,
-  styles: [`
-    .converter-container {
-      width:100%;
-      max-width: 600px;
-      margin: 0px;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      text-align: center;
-      @media (min-width:767px){
-        min-width:400px;
+  styles: [
+    `
+      .converter-container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-align: center;
+
+        @media (min-width: 767px) {
+          min-width: 400px;
+        }
+        @media (max-width: 575px) {
+          min-width: 95vw;
+        }
       }
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin-right: 10px;
-      font-size: 1rem;
-    }
-  
-    .loading {
-      margin-top: 10px;
-      color: #555;
-    }
-    .error {
-      color: red;
-      margin-top: 10px;
-    }
-  `]
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-right: 10px;
+        font-size: 1rem;
+      }
+
+      .loading {
+        margin-top: 10px;
+        color: #555;
+      }
+      .error {
+        color: red;
+        margin-top: 10px;
+      }
+    `,
+  ],
 })
 export class ConverterComponent {
   youtubeUrl: string = '';
@@ -88,33 +98,34 @@ export class ConverterComponent {
     // Set up the required headers for RapidAPI.
     const headers = new HttpHeaders({
       'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com',
-      'x-rapidapi-key': '7870eaa5cbmsh347f1b8fd5ffd23p1cb05cjsne83bbf9a5eae'  // Replace with your RapidAPI key.
+      'x-rapidapi-key': '7870eaa5cbmsh347f1b8fd5ffd23p1cb05cjsne83bbf9a5eae', // Replace with your RapidAPI key.
     });
 
     // Call the API.
-    this.http.get(apiUrl, { headers })
-      .subscribe({
-        next: (response: any) => {
-          this.isConverting = false;
-          // The API is expected to return a JSON object with a "link" property.
-          if (response && response.link) {
-            // Open the download link in a new window/tab.
-            window.open(response.link, '_blank');
-          } else {
-            this.errorMessage = 'Conversion failed: No download link received.';
-          }
-        },
-        error: err => {
-          this.isConverting = false;
-          console.error('Conversion error:', err);
-          this.errorMessage = 'There was an error converting the video. Please try again.';
+    this.http.get(apiUrl, { headers }).subscribe({
+      next: (response: any) => {
+        this.isConverting = false;
+        // The API is expected to return a JSON object with a "link" property.
+        if (response && response.link) {
+          // Open the download link in a new window/tab.
+          window.open(response.link, '_blank');
+        } else {
+          this.errorMessage = 'Conversion failed: No download link received.';
         }
-      });
+      },
+      error: (err) => {
+        this.isConverting = false;
+        console.error('Conversion error:', err);
+        this.errorMessage =
+          'There was an error converting the video. Please try again.';
+      },
+    });
   }
 
   // Helper function to extract the YouTube video ID from a URL.
   extractVideoId(url: string): string | null {
-    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/;
+    const regex =
+      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/;
     const match = url.match(regex);
     return match ? match[1] : null;
   }

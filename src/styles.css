@@ -4,19 +4,19 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-.title-cst{
+.title-cst {
   margin-top: 0;
-  @media (max-width:575px) {
-      font-size: 20px;
+  @media (max-width: 575px) {
+    font-size: 20px;
   }
 }
 body {
   font-family: "Nunito Sans", sans-serif;
   margin: 0;
-  height: 100dvh;
+  /* height: 100dvh; */
   width: 100%;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   background-color: #eed7fd;
   padding-left: 12px;
@@ -29,6 +29,11 @@ body {
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
+  margin-top: 60px !important;
+  @media (max-width: 575px) {
+    margin-top: 40px !important;
+  }
+  margin-top: 60px !important;
 }
 /* From Uiverse.io by abrahamcalsin */
 button {
@@ -55,11 +60,11 @@ input {
     color: gray;
     font-size: 14px;
   }
-  &:focus{
+  &:focus {
     outline: 0;
   }
 
-  &:focus-visible{
+  &:focus-visible {
     outline: 0;
   }
 }
